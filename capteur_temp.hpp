@@ -9,6 +9,8 @@ class capteurth {
 
 public: 
   capteurth();
+
+private:
   
   int get_temperature(){}
 
