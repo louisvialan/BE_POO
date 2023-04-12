@@ -1,11 +1,17 @@
 #include <iostream>
 
 
-class temperature(){};
+#ifndef TEMPE_H
+#define TEMPE_H
 
 
-int get_temperature(){}
+class capteurth {
 
-int get_humidite(){}
+public: 
+  capteurth();
+  
+  int get_temperature(){}
 
+  int get_humidite(){}
 
+}
