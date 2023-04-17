@@ -1,19 +1,22 @@
+#ifndef CAPTEUR_TEMP
+#define CAPTEUR_TEMP
+
 #include <iostream>
+#include "DHT.h"
 
-
-#ifndef TEMPE_H
-#define TEMPE_H
-
-
-class capteurth {
+class capteurth{
 
 public: 
-  capteurth();
+  capteurth(int PIN);
+  float get_temperature();
+  float get_humidite();
 
 private:
-  
-  int get_temperature(){}
+  DHT capteur; 
 
-  int get_humidite(){}
 
-}
+};
+
+
+
+  #endif
