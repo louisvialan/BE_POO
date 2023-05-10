@@ -1,14 +1,22 @@
-#include <iostream>
+#ifndef LCD_HPP
+#define LCD_HPP
 
-#ifndef LCD_H
-#define LCD_H
+#include <iostream>
+#include "rgb_lcd.h"
+#include <string>
+using namespace std;
 
 class lcd {
+
 public: 
   lcd ();
-private: 
-  void write(char*chaine );
+  void write(const char* S );
   void color();
   void clear();
+  void setup();
+  void cursor(int a, int b);
   
-}
+private: 
+  rgb_lcd ecran; 
+};
+#endif
