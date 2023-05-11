@@ -6,11 +6,19 @@
 #include "DHT.h"
 using namespace std;
 
+const int DAYLIGHT=0; 
 capteurth patrick(D3);
 lcd jeannot; 
 air seb(D8);
 
 void setup() {
+  //Pour que le setup ne démarre que lorsqu'il fait jour
+  /*int lightvalue=analogRead(A0);
+  while (lightvalue<DAYLIGHT)
+  {
+    lightvalue=analogRead(A0);
+  }
+  */
     patrick.setup();
     jeannot.setup();
     //seb.setup();
@@ -22,7 +30,7 @@ float a,b;
 int c;
 a=patrick.get_temperature(); 
 b=patrick.get_humidite(); 
-c=seb.getValue();
+int quality = seb.pente();
 cout<<a<<" et l'humidité "<<b<<endl;
 
 //char* temp;
@@ -31,7 +39,7 @@ cout<<a<<" et l'humidité "<<b<<endl;
 
 string temp = "Temp=" + to_string(a);
 string Hum = "Humidite=" + to_string(b);
-string pollution ="Air=" + to_string(c);
+string pollution =seb.pollutionlevel(quality); 
 
 jeannot.write(temp.c_str());
 jeannot.cursor(0,1);
@@ -41,5 +49,4 @@ jeannot.clear();
 jeannot.write(pollution.c_str());
 delay(1500);
 jeannot.clear();
-delay(1500);
 }

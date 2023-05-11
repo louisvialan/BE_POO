@@ -11,6 +11,8 @@ class air {
 public: 
   air(int PIN);
   int getValue();
+  string pollutionlevel(int quality); 
+  int pente();
   //void setup();
 
 private: 
