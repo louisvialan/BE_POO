@@ -15,6 +15,7 @@ public:
   void clear();
   void setup();
   void cursor(int a, int b);
+  void couleur(int temp);
   
 private: 
   rgb_lcd ecran; 
