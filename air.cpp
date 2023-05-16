@@ -28,7 +28,7 @@ string air::pollutionlevel(int quality)
     } else if (quality == AirQualitySensor::LOW_POLLUTION) {
         text="Pollution faible";
     } else if (quality == AirQualitySensor::FRESH_AIR) {
-         text="Air frais";
+         text="Air agréable";
     }
  
  return text; 
