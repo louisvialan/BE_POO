@@ -41,6 +41,7 @@ string temp = "Temp=" + to_string(a);
 string Hum = "Humidite=" + to_string(b);
 string pollution =seb.pollutionlevel(quality); 
 
+jeannot.couleur(a);
 jeannot.write(temp.c_str());
 jeannot.cursor(0,1);
 jeannot.write(Hum.c_str());
