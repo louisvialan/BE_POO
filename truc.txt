@@ -1,3 +1,5 @@
 https://www.mouser.com/datasheet/2/744/Seeed_101020011-1217551.pdf
 https://wiki.seeedstudio.com/Grove-LCD_RGB_Backlight/
 https://github.com/Seeed-Studio/Grove_Air_quality_Sensor
+https://wiki.seeedstudio.com/Grove-Infrared_Receiver/
+
