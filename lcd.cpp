@@ -24,3 +24,15 @@ void lcd:: cursor(int a, int b)
 {
   this ->ecran.setCursor(a,b);
 }
+void lcd :: couleur(int temp)
+{
+  if (temp>= 30)
+  {
+    this-> ecran.setRGB(255,0,0);
+  }
+  else
+  {
+    this->ecran.setRGB(0,0,255);
+  }
+    
+}
