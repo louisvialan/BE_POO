@@ -19,7 +19,7 @@ void coWifi::connect() {
 
     // Attends que la connexion soit établie
     while (WiFi.status() != WL_CONNECTED) {
-        delay(500);
+        delay(100);
         Serial.print(".");
     }
 

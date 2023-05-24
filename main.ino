@@ -6,6 +6,7 @@
 #include "air.hpp"
 #include "lcd.hpp"
 #include "Wifi.hpp"
+#include <WiFiUdp.h>
 
 using namespace std;
 
@@ -13,14 +14,20 @@ using namespace std;
 const int DAYLIGHT = 0;
 
 // Informations de connexion WiFi
-const char* ssid = "iPhone de Louis";
-const char* mdp = "partagelouis";
+const char* ssid = "Meteo";
+const char* mdp = "12345678";
+
+//Information port UDP 
+
+#define UDP_PORT 3111
 
 // Instanciation des objets
+WiFiUDP UDP;  // UDP
 coWifi wifi(ssid, mdp);  // Objet pour la gestion du WiFi
 capteurth patrick(D3);  // Objet pour le capteur de température et d'humidité
 lcd jeannot;  // Objet pour l'écran LCD
 air seb(D8);  // Objet pour la qualité de l'air
+
 
 void setup() {
     Serial.begin(115200);
@@ -30,12 +37,27 @@ void setup() {
     patrick.setup();
     jeannot.setup();
     wifi.connect();
+    UDP.begin(UDP_PORT);
+    Serial.print("Listening on UDP port ");
+    Serial.println(UDP_PORT);
+ 
 }
 
-void loop() {
-    float temperature, humidite;
-    int quality;
 
+
+ char packet[255];
+ const char * reply; 
+ char test[]="temp";
+ string sreply; //Variables de communication UDP
+
+ float temperature, humidite;
+ int quality;
+
+
+
+void loop() {
+  
+   
     // Récupération des données du capteur de température et d'humidité
     temperature = patrick.get_temperature();
     humidite = patrick.get_humidite();
@@ -64,4 +86,26 @@ void loop() {
     jeannot.write(pollutionLevel.c_str());
     delay(1500);
     jeannot.clear();
+
+
+     // Si un paquet envoyé par l'appli est reçu
+  int packetSize = UDP.parsePacket();
+  if (packetSize) {
+    Serial.print("Paquet reçu!"); 
+    int len = UDP.read(packet, 255);
+    if (len > 0)
+    {
+      packet[len] = '\0';
+    }
+    // Send return packet
+    delay(1000);
+    Serial.print("Paquet envoyé");
+    UDP.beginPacket(UDP.remoteIP(), UDP.remotePort());
+    sreply=tempString+"   "+humString;
+    if (temperature>30) {sreply="ALERTE!";}
+    reply=sreply.c_str();
+    UDP.write(reply);
+    UDP.endPacket();
+
+  }
 }
