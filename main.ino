@@ -1,64 +1,67 @@
 #include <ESP8266WiFi.h>
 #include <DHT.h>
 #include <iostream>
-#include "capteur_temp.hpp"
 #include <string>
+#include "capteur_temp.hpp"
 #include "air.hpp"
 #include "lcd.hpp"
-#include "DHT.h"
 #include "Wifi.hpp"
+
 using namespace std;
 
+// Constante de luminosité du jour
+const int DAYLIGHT = 0;
 
-const int DAYLIGHT=0; 
+// Informations de connexion WiFi
 const char* ssid = "iPhone de Louis";
 const char* mdp = "partagelouis";
 
-coWifi wifi(ssid, mdp);
-capteurth patrick(D3);
-lcd jeannot; 
-air seb(D8);
+// Instanciation des objets
+coWifi wifi(ssid, mdp);  // Objet pour la gestion du WiFi
+capteurth patrick(D3);  // Objet pour le capteur de température et d'humidité
+lcd jeannot;  // Objet pour l'écran LCD
+air seb(D8);  // Objet pour la qualité de l'air
 
 void setup() {
-  //Pour que le setup ne démarre que lorsqu'il fait jour
-  /*int lightvalue=analogRead(A0);
-  while (lightvalue<DAYLIGHT)
-  {
-    lightvalue=analogRead(A0);
-  }
-  */
     Serial.begin(115200);
     delay(10);
+
+    // Initialisation des objets
     patrick.setup();
     jeannot.setup();
     wifi.connect();
-    //seb.setup();
 }
 
-// the loop function runs over and over again forever
 void loop() {
-float a,b; 
-int c;
-a=patrick.get_temperature(); 
-b=patrick.get_humidite(); 
-int quality = seb.pente();
-cout<<a<<" et l'humidité "<<b<<endl;
+    float temperature, humidite;
+    int quality;
 
-//char* temp;
+    // Récupération des données du capteur de température et d'humidité
+    temperature = patrick.get_temperature();
+    humidite = patrick.get_humidite();
 
-//sprintf(temp,"Temperature %d",a);
+    // Calcul de la qualité de l'air
+    quality = seb.pente();
 
-string temp = "Temp=" + to_string(a);
-string Hum = "Humidite=" + to_string(b);
-string pollution =seb.pollutionlevel(quality); 
+    // Affichage des valeurs sur le moniteur série
+    cout << "Température : " << temperature << " °C" << endl;
+    cout << "Humidité : " << humidite << " %" << endl;
 
-jeannot.couleur(a);
-jeannot.write(temp.c_str());
-jeannot.cursor(0,1);
-jeannot.write(Hum.c_str());
-delay(1500);
-jeannot.clear();
-jeannot.write(pollution.c_str());
-delay(1500);
-jeannot.clear();
+    // Création des chaînes de caractères pour affichage sur l'écran LCD
+    string tempString = "Temp = " + to_string(temperature) + " C";
+    string humString = "Humidite = " + to_string(humidite) + " %";
+    string pollutionLevel = seb.pollutionlevel(quality);
+
+    // Affichage sur l'écran LCD
+    jeannot.couleur(temperature);  // Changer la couleur de l'écran en fonction de la température
+    jeannot.write(tempString.c_str());  // Afficher la température
+    jeannot.cursor(0, 1);
+    jeannot.write(humString.c_str());  // Afficher l'humidité
+    delay(1500);
+    jeannot.clear();
+
+    // Affichage du niveau de pollution sur l'écran LCD
+    jeannot.write(pollutionLevel.c_str());
+    delay(1500);
+    jeannot.clear();
 }
