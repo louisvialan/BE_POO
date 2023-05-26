@@ -49,16 +49,14 @@ void setup() {
  const char * reply; 
  char test[]="temp";
  string sreply; //Variables de communication UDP
-
  float temperature, humidite;
  int quality;
-
-
 
 void loop() {
   
    
     // Récupération des données du capteur de température et d'humidité
+
     temperature = patrick.get_temperature();
     humidite = patrick.get_humidite();
 
