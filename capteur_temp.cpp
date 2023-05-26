@@ -24,6 +24,10 @@ float capteurth::get_temperature()
     // Récupère la température du capteur DHT.
     float temperature;
     temperature = this->capteur.readTemperature(0);
+    if(temperature == NAN)
+    {
+      Serial.print("ERREUR TEMPERATURE");
+    }
     return temperature;
 }
 
@@ -32,6 +36,10 @@ float capteurth::get_humidite()
     // Récupère l'humidité du capteur DHT.
     float humidity;
     humidity = this->capteur.readHumidity();
+      if(humidity == NAN)
+    {
+      Serial.print("Humidity error");
+    }
     return humidity;
 }
 
