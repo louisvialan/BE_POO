@@ -2,21 +2,20 @@
 #define AIR_HPP
 
 #include <iostream>
+#include "capteur.hpp"
 #include "Air_Quality_Sensor.h"
 #include <string>
-using namespace std;
 
-class air {
-
-public: 
-  air(int PIN);
-  int getValue();
-  string pollutionlevel(int quality); 
-  int pente();
-  //void setup();
-
-private: 
-  AirQualitySensor pollution; 
+class air : public Sensor {
+public:
+    air(int PIN);
+    int getValue() override;
+    std::string pollutionlevel(int quality);
+    int pente();
+    
+private:
+    AirQualitySensor pollution;
 };
 
 #endif
+
